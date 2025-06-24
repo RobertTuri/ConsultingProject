@@ -1,3 +1,5 @@
 newspaper3k
 pandas
 numpy
+nltk
+lxml_html_clean

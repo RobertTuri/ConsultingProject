@@ -36,7 +36,8 @@ urls = [
     "https://interactive.aviationtoday.com/avionicsmagazine/february-march-2021/10-evtol-development-programs-to-watch-in-2021/",
     "https://en.wikipedia.org/wiki/ZeroAvia",
     "https://en.wikipedia.org/wiki/Urban_air_mobility",
-    "https://en.wikipedia.org/wiki/EHang"
+    "https://en.wikipedia.org/wiki/EHang",
+    "https://www.mckinsey.com/industries/consumer-packaged-goods/our-insights/the-value-now-consumer-making-sense-of-us-consumer-sentiment-and-spending",
 ]
 
 

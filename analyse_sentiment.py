@@ -38,13 +38,16 @@ df['date_only'] = df['publish_date'].dt.date
 
 # Group by date and average sentiment
 sentiment_by_date = df.groupby('date_only')['sentiment'].mean()
+moving_avg = sentiment_by_date.rolling(window=30, min_periods=1).mean() #Rolling average window set to 1 month (30 days)
 
 plt.figure(figsize=(10, 5))
-sentiment_by_date.plot(marker='o', linestyle='-')
-plt.title("Average Sentiment Over Time")
+plt.plot(sentiment_by_date.index, sentiment_by_date.values, label='Daily Average Sentiment', marker='x')
+plt.plot(moving_avg.index, moving_avg.values, label='7-Day Moving Average', linestyle='--', linewidth='3.5', color='red')
+plt.title("Sentiment Over Time with 7-Day Moving Average")
 plt.xlabel("Date")
 plt.ylabel("Average Sentiment")
 plt.grid(True)
+plt.legend()
 plt.tight_layout()
 plt.xticks(rotation=45)
 plt.show()

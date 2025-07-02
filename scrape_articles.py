@@ -12,6 +12,14 @@ print("Running...\n")
 
 search_term = input("Enter a topic below to search for articles: \n")
 
+def search_urls(query, max_results=10):
+    urls = []
+    with DDGS() as ddgs:
+        for r in ddgs.text(query, max_results=max_results):
+            urls.append(r['href'])
+    return urls
+
+urls = search_urls(search_term, max_results=10)
 articles = []
 
 for url in urls:
@@ -28,10 +36,11 @@ for url in urls:
     except Exception as e:
         print(f"Failed to process {url}: {e}")
 
-# Save to CSV in the 'data' folder
+# Save to CSV
 df = pd.DataFrame(articles)
-df.to_csv("data/articles.csv", index=False)
+filename = f"data/articles_{search_term.replace(' ', '_')}.csv"
+df.to_csv(filename, index=False)
 
-print("Articles scraped and saved.\n") #Confirm message for debugging purposes
+print(f"Articles about '{search_term}' saved to {filename}")
 
 

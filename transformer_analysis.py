@@ -7,10 +7,12 @@ import matplotlib.pyplot as plt
 
 from keybert import KeyBERT #Upgraded transformer model
 
+kw_model = KeyBERT()
 
 # Load your articles (assumes 'text' column exists)
 df = pd.read_csv("data/articles.csv")
 print("Loading transformer sentiment model...\n")
+df['keywords'] = df['text'].apply(lambda x: kw_model.extract_keywords(x, top_n=5))
 sentiment_pipeline = pipeline("sentiment-analysis")
 
 # Define sentiment scoring function

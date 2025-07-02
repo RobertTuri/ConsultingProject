@@ -5,6 +5,9 @@ from transformers import pipeline
 import pandas as pd
 import matplotlib.pyplot as plt
 
+from keybert import KeyBERT #Upgraded transformer model
+
+
 # Load your articles (assumes 'text' column exists)
 df = pd.read_csv("data/articles.csv")
 print("Loading transformer sentiment model...\n")

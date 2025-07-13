@@ -3,7 +3,7 @@ from newspaper import Article as A
 import pandas as pd
 import numpy as np
 import nltk
-from duckduckgo_search import DDGS
+from ddgs import DDGS
 
 print("Running...\n")
 
@@ -17,16 +17,9 @@ PRIORITY_SITES = {
     "mainstream": ["bbc.com", "cnn.com", "nytimes.com", "reuters.com", "techcrunch.com", "financialtimes.com", "news.sky.com"], #News
     "social": ["reddit.com", "medium.com", "substack.com", "quora.com", "seekingalpha.com", "stocktwits.com"]
 }
-#Add financial/stocks data from finviz or some shit
+#Add financial/stocks data from finviz or some shit later
 
-def search_urls(query, max_results=10):
-    urls = []
-    with DDGS() as ddgs:
-        for r in ddgs.text(query, max_results=max_results):
-            urls.append(r['href'])
-    return urls
-
-def search_priority_sites(search_term, max_per_site=5, general_limit=10):
+def search_priority_sites(search_term, max_per_site=8, general_limit=10):
     urls = []
     seen = set()
     with DDGS() as ddgs:
@@ -49,9 +42,11 @@ def search_priority_sites(search_term, max_per_site=5, general_limit=10):
 
     return urls
 
-urls = search_urls(search_term, max_results=10)
+results = search_priority_sites(search_term)
+urls = [url for url, _ in results]
 articles = []
 
+#Careful to distinguish between variable name with/without s on the end...
 for url in urls:
     try:
         article = A(url)
@@ -70,6 +65,9 @@ for url in urls:
 df = pd.DataFrame(articles)
 filename = f"data/articles_{search_term.replace(' ', '_')}.csv"
 df.to_csv(filename, index=False)
+
+print(f"Successfully scraped {len(articles)} articles")
+
 
 print(f"Articles about '{search_term}' saved to {filename}")
 

@@ -7,9 +7,6 @@ from ddgs import DDGS
 
 print("Running...\n")
 
-#nltk.download('vader_lexicon') 
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Uncomment if VADER not downloaded on machine
-
 search_term = input("Enter a topic below to search for articles: \n")
 
 PRIORITY_SITES = {
@@ -17,7 +14,7 @@ PRIORITY_SITES = {
     "mainstream": ["bbc.com", "cnn.com", "nytimes.com", "reuters.com", "techcrunch.com", "financialtimes.com", "news.sky.com"], #News
     "social": ["reddit.com", "medium.com", "substack.com", "quora.com", "seekingalpha.com", "stocktwits.com"]
 }
-#Add financial/stocks data from finviz or some shit later
+#Add financial/stocks data from finviz or some similar shit later
 
 def search_priority_sites(search_term, max_per_site=8, general_limit=10):
     urls = []

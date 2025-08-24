@@ -1,5 +1,9 @@
-newspaper3k
 pandas
-numpy
 nltk
-lxml_html_clean
+matplotlib
+newspaper3k
+duckduckgo-search
+keybert
+transformers
+torch
+scikit-learn

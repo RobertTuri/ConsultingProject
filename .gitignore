@@ -1,4 +1,14 @@
+# Byte-compiled / cached / temporary files
 __pycache__/
-*.pyc
+*.py[cod]
+*.so
+
+# Virtual environment
+venv/
 .env
+
 data/
+.vscode/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/

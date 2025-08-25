@@ -8,7 +8,7 @@ def get_sentiment(text):
     score = analyzer.polarity_scores(str(text))
     return score['compound']
 
-def analyse_sentiment(filepath, plot=False):
+def analyse_sentiment_v(filepath, plot=False):
     print(f"[SENTIMENT] Analyzing sentiment from: {filepath}")
     
     df = pd.read_csv(filepath)

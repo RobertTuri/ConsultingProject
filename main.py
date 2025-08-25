@@ -1,3 +1,4 @@
 # Only file which needs to be run for dashboard to work***
 from scraper import scrape_articles
-from sentiment_vader_dashboard import analyse_sentiment
+from sentiment_vader_dashboard import analyse_sentiment_v
+from sentiment_transformer_dashboard import analyse_sentiment_t

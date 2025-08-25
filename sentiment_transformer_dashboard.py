@@ -7,14 +7,12 @@ from keybert import KeyBERT
 # Force PyTorch use (no TensorFlow)
 os.environ["TRANSFORMERS_NO_TF"] = "1"
 
-# Load models once globally
 kw_model = KeyBERT()
 sentiment_pipeline = pipeline("sentiment-analysis")
 
-# Scoring function for a single piece of text
 def transformer_sentiment(text):
     try:
-        result = sentiment_pipeline(str(text)[:512])[0]  # Truncate for model
+        result = sentiment_pipeline(str(text)[:512])[0] 
         score = result['score']
         label = result['label']
         return score if label == "POSITIVE" else -score
@@ -22,7 +20,6 @@ def transformer_sentiment(text):
         print(f"Error analyzing text: {e}")
         return None
 
-# Full pipeline, matching VADER function structure
 def analyse_sentiment_t(filepath, plot=False):
     print(f"[TRANSFORMER] Analyzing transformer sentiment from: {filepath}")
     

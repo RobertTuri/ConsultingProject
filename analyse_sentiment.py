@@ -3,9 +3,6 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import nltk
 import matplotlib.pyplot as plt
 
-#nltk.download('vader_lexicon') 
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Uncomment if VADER not downloaded on machine
-
 # Load your scraped articles
 df = pd.read_csv("data/articles.csv")
 analyzer = SentimentIntensityAnalyzer()

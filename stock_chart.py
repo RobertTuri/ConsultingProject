@@ -1,0 +1,3 @@
+# Will come back to this a little latter as an extension...
+
+# Idea is to make a sort of SQL in order to 

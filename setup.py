@@ -1,3 +1,5 @@
+# Follow README instructions
+
 # setup_env.py
 import nltk
 

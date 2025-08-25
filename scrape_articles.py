@@ -14,7 +14,7 @@ PRIORITY_SITES = {
     "mainstream": ["bbc.com", "cnn.com", "nytimes.com", "reuters.com", "techcrunch.com", "financialtimes.com", "news.sky.com"], #News
     "social": ["reddit.com", "medium.com", "substack.com", "quora.com", "seekingalpha.com", "stocktwits.com"]
 }
-#Add financial/stocks data from finviz or some similar shit later
+# Possible addition: Add financial/stocks data from finviz maybe?
 
 def search_priority_sites(search_term, max_per_site=8, general_limit=10):
     urls = []
@@ -43,7 +43,6 @@ results = search_priority_sites(search_term)
 urls = [url for url, _ in results]
 articles = []
 
-#Careful to distinguish between variable name with/without s on the end...
 for url in urls:
     try:
         article = A(url)
@@ -58,13 +57,12 @@ for url in urls:
     except Exception as e:
         print(f"Failed to process {url}: {e}")
 
-# Save to CSV
+# Saves to CSV
 df = pd.DataFrame(articles)
 filename = f"data/articles_{search_term.replace(' ', '_')}.csv"
 df.to_csv(filename, index=False)
 
 print(f"Successfully scraped {len(articles)} articles")
-
 
 print(f"Articles about '{search_term}' saved to {filename}")
 

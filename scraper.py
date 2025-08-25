@@ -1,26 +1,19 @@
 # Imports needed to scrape articles
 from newspaper import Article as A
 import pandas as pd
-import numpy as np
-import nltk
 from duckduckgo_search import DDGS
-
-print("Running...\n")
-
-search_term = input("Enter a topic below to search for articles: \n")
+import os
 
 PRIORITY_SITES = {
     "professional": ["mckinsey.com", "bcg.com", "pwc.com", "ey.com", "deloitte.com", "kpmg.com", "accenture.com"],
-    "mainstream": ["bbc.com", "cnn.com", "nytimes.com", "reuters.com", "techcrunch.com", "financialtimes.com", "news.sky.com"], #News
+    "mainstream": ["bbc.com", "cnn.com", "nytimes.com", "reuters.com", "techcrunch.com", "financialtimes.com", "news.sky.com"],
     "social": ["reddit.com", "medium.com", "substack.com", "quora.com", "seekingalpha.com", "stocktwits.com"]
 }
-# Possible addition: Add financial/stocks data from finviz maybe?
 
 def search_priority_sites(search_term, max_per_site=8, general_limit=10):
     urls = []
     seen = set()
     with DDGS() as ddgs:
-        # Prioritized site-specific searches
         for category, domains in PRIORITY_SITES.items():
             for domain in domains:
                 query = f"site:{domain} {search_term}"
@@ -29,41 +22,40 @@ def search_priority_sites(search_term, max_per_site=8, general_limit=10):
                     if r['href'] not in seen:
                         seen.add(r['href'])
                         urls.append((r['href'], category)) 
-        
-        # General search (fallback)
         print("Searching general web...")
         for r in ddgs.text(search_term, max_results=general_limit):
             if r['href'] not in seen:
                 seen.add(r['href'])
                 urls.append((r['href'], "unknown"))
-
     return urls
 
-results = search_priority_sites(search_term)
-urls = [url for url, _ in results]
-articles = []
+def scrape_articles(search_term):
+    print(f"[SCRAPER] Searching for articles on: {search_term}")
+    results = search_priority_sites(search_term)
+    urls = [url for url, _ in results]
+    articles = []
 
-for url in urls:
-    try:
-        article = A(url)
-        article.download()
-        article.parse()
-        articles.append({
-            "title": article.title,
-            "text": article.text,
-            "publish_date": article.publish_date,
-            "url": url
-        })
-    except Exception as e:
-        print(f"Failed to process {url}: {e}")
+    for url in urls:
+        try:
+            article = A(url)
+            article.download()
+            article.parse()
+            articles.append({
+                "title": article.title,
+                "text": article.text,
+                "publish_date": article.publish_date,
+                "url": url
+            })
+        except Exception as e:
+            print(f"Failed to process {url}: {e}")
 
-# Saves to CSV
-df = pd.DataFrame(articles)
-filename = f"data/articles_{search_term.replace(' ', '_')}.csv"
-df.to_csv(filename, index=False)
+    if not os.path.exists("data"):
+        os.makedirs("data")
 
-print(f"Successfully scraped {len(articles)} articles")
-
-print(f"Articles about '{search_term}' saved to {filename}")
+    filename = f"data/articles_{search_term.replace(' ', '_')}.csv"
+    df = pd.DataFrame(articles)
+    df.to_csv(filename, index=False)
+    print(f"[SCRAPER] Saved {len(articles)} articles to {filename}")
+    return filename
 
 

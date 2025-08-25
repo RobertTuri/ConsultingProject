@@ -1,4 +1,5 @@
 import os
+
 os.environ["TRANSFORMERS_NO_TF"] = "1" #Forces to use PyTorch over Tensorflow
 
 from transformers import pipeline

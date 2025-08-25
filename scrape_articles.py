@@ -3,7 +3,7 @@ from newspaper import Article as A
 import pandas as pd
 import numpy as np
 import nltk
-from ddgs import DDGS
+from duckduckgo_search import DDGS
 
 print("Running...\n")
 

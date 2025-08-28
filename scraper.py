@@ -1,7 +1,7 @@
 # Imports needed to scrape articles
 from newspaper import Article as A
 import pandas as pd
-from duckduckgo_search import DDGS
+from ddgs import DDGS
 import os
 
 PRIORITY_SITES = {

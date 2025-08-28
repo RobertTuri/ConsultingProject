@@ -3,6 +3,7 @@ nltk
 matplotlib
 newspaper3k
 duckduckgo-search
+ddgs
 keybert
 transformers
 torch

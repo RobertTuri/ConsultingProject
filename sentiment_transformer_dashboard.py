@@ -29,7 +29,9 @@ def analyse_sentiment_t(filepath, plot=False):
         raise ValueError("CSV must contain a 'text' column")
 
     print("[TRANSFORMER] Extracting keywords...")
-    df["keywords"] = df["text"].apply(lambda x: kw_model.extract_keywords(x, top_n=5))
+    df["keywords"] = df["text"].apply(
+    lambda x: kw_model.extract_keywords(str(x), top_n=5) if pd.notna(x) else []
+    )
 
     print("[TRANSFORMER] Running sentiment analysis...")
     df["transformer_sentiment"] = df["text"].apply(transformer_sentiment)

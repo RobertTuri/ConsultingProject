@@ -37,16 +37,16 @@ def merge_sentiments(filepath):
 def run_pipeline():
     topic = input("Enter a topic to analyze: ")
 
-    print("\n[1] Scraping articles...")
+    print("\nScraping articles...")
     article_csv = scrape_articles(topic)
 
-    print("\n[2] Running VADER sentiment analysis...")
+    print("\nRunning VADER sentiment analysis...")
     vader_csv = analyse_sentiment_v(article_csv, plot=True)
 
-    print("\n[3] Running Transformer sentiment analysis...")
+    print("\nRunning Transformer sentiment analysis...")
     transformer_csv = analyse_sentiment_t(article_csv, plot=True)
 
-    print("\n[4] Merging VADER + Transformer scores...")
+    print("\nMerging VADER + Transformer scores...")
     combined_csv = merge_sentiments(article_csv)
 
     print("\n     Pipeline complete.")

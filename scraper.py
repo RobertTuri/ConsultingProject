@@ -14,20 +14,32 @@ def search_priority_sites(search_term, max_per_site=8, general_limit=10):
     urls = []
     seen = set()
     with DDGS() as ddgs:
+        # Search priority sources
         for category, domains in PRIORITY_SITES.items():
             for domain in domains:
                 query = f"site:{domain} {search_term}"
                 print(f"Searching: {query}")
-                for r in ddgs.text(query, max_results=max_per_site):
-                    if r['href'] not in seen:
-                        seen.add(r['href'])
-                        urls.append((r['href'], category)) 
+                try:
+                    for r in ddgs.text(query, max_results=max_per_site):
+                        if r['href'] not in seen:
+                            seen.add(r['href'])
+                            urls.append((r['href'], category))
+                except Exception as e:
+                    print(f"[WARN] No results for {query} ({e})")
+
+        # General web search (no site restriction)
+        # FUNCTION TAKES QUITE A WHILE TO RUN (>1MIN)
         print("Searching general web...")
-        for r in ddgs.text(search_term, max_results=general_limit):
-            if r['href'] not in seen:
-                seen.add(r['href'])
-                urls.append((r['href'], "unknown"))
+        try:
+            for r in ddgs.text(search_term, max_results=general_limit):
+                if r['href'] not in seen:
+                    seen.add(r['href'])
+                    urls.append((r['href'], "unknown"))
+        except Exception as e:
+            print(f"General search failed: {e}")
+
     return urls
+
 
 def scrape_articles(search_term):
     print(f"[SCRAPER] Searching for articles on: {search_term}")

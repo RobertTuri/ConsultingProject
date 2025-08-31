@@ -20,25 +20,25 @@ def search_priority_sites(search_term, max_per_site=8, general_limit=10):
                 query = f"site:{domain} {search_term}"
                 print(f"Searching: {query}")
                 try:
-                    for r in ddgs.text(query, max_results=max_per_site):
+                    for r in ddgs.text(query, max_results=max_per_site, timeout=5):
                         if r['href'] not in seen:
                             seen.add(r['href'])
                             urls.append((r['href'], category))
                 except Exception as e:
                     print(f"[WARN] No results for {query} ({e})")
 
-        # General web search (no site restriction)
-        # FUNCTION TAKES QUITE A WHILE TO RUN (>1MIN)
+        # General web search — now with timeout and lower limit
         print("Searching general web...")
         try:
-            for r in ddgs.text(search_term, max_results=general_limit):
+            for r in ddgs.text(search_term, max_results=general_limit, timeout=5):
                 if r['href'] not in seen:
                     seen.add(r['href'])
                     urls.append((r['href'], "unknown"))
         except Exception as e:
-            print(f"General search failed: {e}")
+            print(f"[WARN] General search failed: {e}")
 
     return urls
+
 
 
 def scrape_articles(search_term):

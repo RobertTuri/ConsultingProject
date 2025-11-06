@@ -4,6 +4,7 @@ import pandas as pd
 from scraper import scrape_articles
 from sentiment_vader_dashboard import analyse_sentiment_v
 from sentiment_transformer_dashboard import analyse_sentiment_t
+from stock_chart import fetch_stock_data
 
 def merge_sentiments(filepath):
     df = pd.read_csv(filepath)
@@ -53,6 +54,9 @@ def run_pipeline():
     print(f"    ├ VADER results saved to:      {vader_csv}")
     print(f"    ├ Transformer results saved to: {transformer_csv}")
     print(f"    └ Final combined sentiment file: {combined_csv}")
+
+    print("\nFetching Stock Data...")
+    stock_csv = fetch_stock_data(topic)
 
 if __name__ == "__main__":
     run_pipeline()

@@ -22,8 +22,8 @@ pip install -r requirements.txt
 3) Run set-up script
 python setup.py
 
-4) Usage 
-python main.py
+4) Usage (WARNING: May be slow to run at first so do NOT press any keys as it will be passed as the input for search)
+python ./src/main.py
 
 Author: 
 Robert Turi 

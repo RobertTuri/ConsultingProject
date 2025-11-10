@@ -1,6 +1,9 @@
 import os
 import pandas as pd
 
+print("Dashboard running...\n")
+print("Warning: Do not press any key while packages are installing, wait patiently for search prompt\n")
+
 from scraper import scrape_articles
 from sentiment_vader_dashboard import analyse_sentiment_v
 from sentiment_transformer_dashboard import analyse_sentiment_t
@@ -30,11 +33,10 @@ def merge_sentiments(filepath):
     outpath = os.path.join("data", base)
     df.to_csv(outpath, index=False)
 
-    print(f"[MERGE] Final sentiment combined and saved to: {outpath}")
+    print(f"Final sentiment combined and saved to: {outpath}")
     return outpath
 
-# === MAIN PIPELINE ===
-
+# MAIN PIPELINE:
 def run_pipeline():
     topic = input("Enter a topic to analyze: ")
 
@@ -50,6 +52,7 @@ def run_pipeline():
     print("\nMerging VADER + Transformer scores...")
     combined_csv = merge_sentiments(article_csv)
 
+    # AI used for formatting below*
     print("\n     Pipeline complete.")
     print(f"    ├ VADER results saved to:      {vader_csv}")
     print(f"    ├ Transformer results saved to: {transformer_csv}")

@@ -4,13 +4,14 @@ import pandas as pd
 from ddgs import DDGS
 import os
 
+# If adding to list only consider 
 PRIORITY_SITES = {
     "professional": ["mckinsey.com", "bcg.com", "pwc.com", "ey.com", "deloitte.com", "kpmg.com", "accenture.com"],
-    "mainstream": ["bbc.com", "cnn.com", "nytimes.com", "reuters.com", "techcrunch.com", "financialtimes.com", "news.sky.com"],
+    "mainstream": ["bbc.com", "cnn.com", "nytimes.com", "reuters.com", "techcrunch.com", "news.sky.com"],
     "social": ["reddit.com", "medium.com", "substack.com", "quora.com", "seekingalpha.com", "stocktwits.com"]
 }
 
-def search_priority_sites(search_term, max_per_site=8, general_limit=10):
+def search_priority_sites(search_term, max_per_site=4, general_limit=5):
     urls = []
     seen = set()
     with DDGS() as ddgs:
@@ -25,7 +26,7 @@ def search_priority_sites(search_term, max_per_site=8, general_limit=10):
                             seen.add(r['href'])
                             urls.append((r['href'], category))
                 except Exception as e:
-                    print(f"[WARN] No results for {query} ({e})")
+                    print(f"Warning: No results for {query} ({e})")
 
         # General web search — now with timeout and lower limit
         print("Searching general web...")
@@ -35,7 +36,7 @@ def search_priority_sites(search_term, max_per_site=8, general_limit=10):
                     seen.add(r['href'])
                     urls.append((r['href'], "unknown"))
         except Exception as e:
-            print(f"[WARN] General search failed: {e}")
+            print(f"Warning: General search failed: {e}")
 
     return urls
 

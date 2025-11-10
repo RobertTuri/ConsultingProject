@@ -21,7 +21,7 @@ def search_priority_sites(search_term, max_per_site=4, general_limit=5):
                 query = f"site:{domain} {search_term}"
                 print(f"Searching: {query}")
                 try:
-                    for r in ddgs.text(query, max_results=max_per_site, timeout=5):
+                    for r in ddgs.text(query, max_results=max_per_site, timeout=3):
                         if r['href'] not in seen:
                             seen.add(r['href'])
                             urls.append((r['href'], category))
@@ -31,7 +31,7 @@ def search_priority_sites(search_term, max_per_site=4, general_limit=5):
         # General web search — now with timeout and lower limit
         print("Searching general web...")
         try:
-            for r in ddgs.text(search_term, max_results=general_limit, timeout=5):
+            for r in ddgs.text(search_term, max_results=general_limit, timeout=3):
                 if r['href'] not in seen:
                     seen.add(r['href'])
                     urls.append((r['href'], "unknown"))
@@ -43,7 +43,7 @@ def search_priority_sites(search_term, max_per_site=4, general_limit=5):
 
 
 def scrape_articles(search_term):
-    print(f"[SCRAPER] Searching for articles on: {search_term}")
+    print(f"Searching for articles on: {search_term}")
     results = search_priority_sites(search_term)
     urls = [url for url, _ in results]
     articles = []
@@ -68,7 +68,7 @@ def scrape_articles(search_term):
     filename = f"data/articles_{search_term.replace(' ', '_')}.csv"
     df = pd.DataFrame(articles)
     df.to_csv(filename, index=False)
-    print(f"[SCRAPER] Saved {len(articles)} articles to {filename}")
+    print(f"Saved {len(articles)} articles to {filename}")
     return filename
 
 

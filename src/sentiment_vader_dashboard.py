@@ -9,7 +9,7 @@ def get_sentiment(text):
     return score['compound']
 
 def analyse_sentiment_v(filepath, plot=False):
-    print(f"[SENTIMENT] Analyzing sentiment from: {filepath}")
+    print(f"[S] Analyzing sentiment from: {filepath}")
     
     df = pd.read_csv(filepath)
     if "text" not in df.columns:
@@ -22,16 +22,12 @@ def analyse_sentiment_v(filepath, plot=False):
     outpath = os.path.join("data", new_filename)
     df.to_csv(outpath, index=False)
 
-    print(f"[SENTIMENT] File saved to: {outpath}")
-
     if plot:
         plot_sentiment(df)
 
     return outpath
 
 def plot_sentiment(df):
-    print("[SENTIMENT] Generating plots...")
-
     plt.figure(figsize=(8, 5))
     plt.hist(df["sentiment"].dropna(), bins=20, edgecolor="black")
     plt.title("Sentiment Score Distribution")

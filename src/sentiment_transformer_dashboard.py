@@ -21,27 +21,25 @@ def transformer_sentiment(text):
         return None
 
 def analyse_sentiment_t(filepath, plot=False):
-    print(f"[TRANSFORMER] Analyzing transformer sentiment from: {filepath}")
+    print(f"[T] Analysing transformer sentiment from: {filepath}")
     
     df = pd.read_csv(filepath)
 
     if "text" not in df.columns:
         raise ValueError("CSV must contain a 'text' column")
 
-    print("[TRANSFORMER] Extracting keywords...")
+    print("[T] Extracting keywords...")
     df["keywords"] = df["text"].apply(
     lambda x: kw_model.extract_keywords(str(x), top_n=5) if pd.notna(x) else []
     )
 
-    print("[TRANSFORMER] Running sentiment analysis...")
+    print("[T] Running sentiment analysis...")
     df["transformer_sentiment"] = df["text"].apply(transformer_sentiment)
 
     # Output path
     base = os.path.basename(filepath).replace("articles_", "articles_with_transformer_")
     outpath = os.path.join("data", base)
     df.to_csv(outpath, index=False)
-
-    print(f"[TRANSFORMER] Done. Results saved to {outpath}")
 
     if plot:
         plot_sentiment(df)
@@ -50,8 +48,6 @@ def analyse_sentiment_t(filepath, plot=False):
 
 # Optional histogram plot
 def plot_sentiment(df):
-    print("[TRANSFORMER] Generating histogram...")
-
     df = df.dropna(subset=["transformer_sentiment"])
     plt.figure(figsize=(8, 5))
     plt.hist(df["transformer_sentiment"], bins=20, edgecolor="black")

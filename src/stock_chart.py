@@ -21,7 +21,7 @@ def fetch_stock_data(topic):
     if not ticker:
         ticker = "SPY"  # default to S&P 500
 
-    print(f"[STOCKS] Fetching data for {ticker} ({topic})")
+    print(f"Fetching stock data for {ticker} ({topic})")
 
     end_date = datetime.today()
     start_date = end_date - timedelta(days=5*365)
@@ -43,5 +43,5 @@ def fetch_stock_data(topic):
 
     outpath = f"data/stock_{ticker}.csv"
     stock.to_csv(outpath)
-    print(f"[STOCKS] Saved stock data to {outpath}")
+    print(f"Saved stock data to {outpath}")
     return outpath

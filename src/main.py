@@ -43,11 +43,13 @@ def run_pipeline():
     print("\nScraping articles...")
     article_csv = scrape_articles(topic)
 
+    # Can add 'plot=True' as input argument in order to see raw results
     print("\nRunning VADER sentiment analysis...")
-    vader_csv = analyse_sentiment_v(article_csv, plot=True)
+    vader_csv = analyse_sentiment_v(article_csv)
 
+    # Can add 'plot=True' as input argument in order to see raw results
     print("\nRunning Transformer sentiment analysis...")
-    transformer_csv = analyse_sentiment_t(article_csv, plot=True)
+    transformer_csv = analyse_sentiment_t(article_csv)
 
     print("\nMerging VADER + Transformer scores...")
     combined_csv = merge_sentiments(article_csv)

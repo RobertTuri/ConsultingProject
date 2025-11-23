@@ -1,4 +1,5 @@
 import os
+import glob
 import pandas as pd
 
 print("Dashboard running...\n")
@@ -52,7 +53,16 @@ def run_pipeline():
     transformer_csv = analyse_sentiment_t(article_csv)
 
     print("\nMerging VADER + Transformer scores...")
-    combined_csv = merge_sentiments(article_csv)
+
+    vdf = pd.read_csv(vader_csv)
+    tdf = pd.read_csv(transformer_csv)[["url", "transformer_sentiment"]]
+
+    # merge on URL (safe because URL is unique)
+    merged = vdf.merge(tdf, on="url", how="left")
+
+    temp_path = article_csv.replace("articles_", "articles_with_both_sentiments_")
+    merged.to_csv(temp_path, index=False)
+    combined_csv = merge_sentiments(temp_path)
 
     # AI used for formatting below*
     print("\n     Pipeline complete.")

@@ -6,12 +6,12 @@ import os
 
 # If adding to list only consider 
 PRIORITY_SITES = {
-    "professional": ["mckinsey.com", "bcg.com", "pwc.com", "ey.com", "deloitte.com", "kpmg.com", "accenture.com"],
+    "professional": ["mckinsey.com", "bcg.com", "pwc.com", "deloitte.com", "kpmg.com", "accenture.com"],
     "mainstream": ["bbc.com", "cnn.com", "nytimes.com", "reuters.com", "techcrunch.com", "news.sky.com"],
     "social": ["reddit.com", "medium.com", "substack.com", "quora.com", "seekingalpha.com", "stocktwits.com"]
 }
 
-def search_priority_sites(search_term, max_per_site=4, general_limit=5):
+def search_priority_sites(search_term, max_per_site=2, general_limit=3):
     urls = []
     seen = set()
     with DDGS() as ddgs:
@@ -43,12 +43,10 @@ def search_priority_sites(search_term, max_per_site=4, general_limit=5):
 
 
 def scrape_articles(search_term):
-    print(f"Searching for articles on: {search_term}")
     results = search_priority_sites(search_term)
-    urls = [url for url, _ in results]
     articles = []
 
-    for url in urls:
+    for url, source_type in results:
         try:
             article = A(url)
             article.download()
@@ -57,7 +55,8 @@ def scrape_articles(search_term):
                 "title": article.title,
                 "text": article.text,
                 "publish_date": article.publish_date,
-                "url": url
+                "url": url,
+                "source_type": source_type
             })
         except Exception as e:
             print(f"Failed to process {url}: {e}")

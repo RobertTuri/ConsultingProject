@@ -10,4 +10,4 @@ torch
 scikit-learn
 lxml_html_clean
 yfinance
-
+streamlit
